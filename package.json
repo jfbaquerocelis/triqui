@@ -1,0 +1,28 @@
+{
+  "name": "triqui",
+  "version": "1.0.0",
+  "description": "Triqui Game",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jfbaquerocelis/triqui.git"
+  },
+  "keywords": [
+    "Triqui",
+    "Match",
+    "3",
+    "Game"
+  ],
+  "author": "John Baquero Celis <jfbaquerocelis@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jfbaquerocelis/triqui/issues"
+  },
+  "homepage": "https://github.com/jfbaquerocelis/triqui#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
