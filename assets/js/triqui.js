@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
       socket.emit(action)
       // Desactivamos el botón
       this.classList.add('disabled')
+
+      M.toast({ html: '¡A Jugar!', classes: 'blue' })
     } else if (action === 'resume match') {
       let match = JSON.parse(localStorage.getItem('match'))
       // Vamos a llenar los valores de la tabla a partir de la matríz del juego
@@ -79,7 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
               match.turn = ''
               headerButton.classList.remove('disabled')
               pauseButton.classList.add('disabled')
-              turnMessage.textContent = `¡Has ganado ${winner}!`
+              turnMessage.textContent = 'Juego Terminado'
+              M.toast({ html: `¡Has ganado ${winner}! Felicitaciones`, classes: 'blue' })
               socket.emit('match finished', match)
               localStorage.removeItem('match')
             } else if (blankFields.length === 0) {
@@ -88,7 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
               match.turn = ''
               headerButton.classList.remove('disabled')
               pauseButton.classList.add('disabled')
-              turnMessage.textContent = `Empate`
+              turnMessage.textContent = `Juego Terminado`
+              M.toast({ html: `¡Empate!`, classes: 'teal' })
               socket.emit('match finished', match)
               localStorage.removeItem('match')
             }
@@ -113,11 +117,15 @@ document.addEventListener('DOMContentLoaded', () => {
       icon.classList.add('fa-play')
       text.textContent = 'SEGUIR'
       match.isPaused = true
+
+      M.toast({ html: 'Juego Pausado', classes: 'teal' })
     } else {
       icon.classList.remove('fa-play')
       icon.classList.add('fa-pause')
       text.textContent = 'PAUSA'
       match.isPaused = false
+
+      M.toast({ html: '¡A Jugar!', classes: 'blue' })
     }
 
     localStorage.setItem('match', JSON.stringify(match))
