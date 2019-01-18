@@ -1,5 +1,6 @@
 const express = require('express')
 const nunjucks = require('nunjucks')
+const moment = require('moment')
 const rootDir = require('app-root-dir')
 const mongoose = require('mongoose')
 const URI = 'mongodb://localhost:27017/triqui'
@@ -21,18 +22,20 @@ server.use(express.static(`${rootDir.get()}/dist/`))
 
 server.get('/', async function (req, res) {
   try {
-    let matches = await Match.find({})
+    let matches = await Match.find({}, null, { sort: { createdAt: -1 } })
 
-    res.render('index', { matches })
+    res.render('index', {
+      matches
+    })
   } catch (err) {
     console.error(err)
   }
 })
 
 // Sockets
-let newMatch = require('./sockets/newMatch')
+let matchIO = require('./sockets/match')
 
-newMatch(io)
+matchIO(io)
 
 mongoose.connect(URI, { useNewUrlParser: true }, err => {
   if (err) throw err

@@ -1,6 +1,6 @@
 const Match = require('../models/match')
 
-function newMatch (io) {
+function matchIO (io) {
   io.on('connection', socket => {
     // Vamos a crear el socket para crear un nuevo juego
     socket.on('new match', async function () {
@@ -13,7 +13,15 @@ function newMatch (io) {
         console.error(err)
       }
     })
+    // Vamos a recibir el socket cuando finalice una partida
+    socket.on('match finished', async function (match) {
+      try {
+        let updated = await Match.findByIdAndUpdate(match._id, match)
+      } catch (err) {
+        console.error(err)
+      }
+    })
   })
 }
 
-module.exports = newMatch
+module.exports = matchIO

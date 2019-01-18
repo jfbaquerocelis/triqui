@@ -1,20 +1,12 @@
 <div class="dashboard col s2">
   <h5 class="dashboard__title">Historial de Partidas</h5>
   <div class="dashboard__container">
-    <div class="dashboard__match">
-      <small class="dashboard__match__date">16 de Enero 2019 20:47</small>
-      <p class="dashboard__match__winner">Ganador: <strong>O</strong></p>
-      <p class="dashboard__match__draw">Empate? <strong>No</strong></p>
+    {% for match in matches %}
+      <div class="dashboard__match">
+        <small class="dashboard__match__date">{{match.createdAt}}</small>
+        <p class="dashboard__match__winner">Ganador: <strong>{{match.winner}}</strong></p>
+        <p class="dashboard__match__draw">Empate? <strong>{{"Si" if match.draw else "No"}}</strong></p>
     </div>
-    <div class="dashboard__match">
-      <small class="dashboard__match__date">16 de Enero 2019 20:47</small>
-      <p class="dashboard__match__winner">Ganador: <strong>O</strong></p>
-      <p class="dashboard__match__draw">Empate? <strong>No</strong></p>
-    </div>
-    <div class="dashboard__match">
-      <small class="dashboard__match__date">16 de Enero 2019 20:47</small>
-      <p class="dashboard__match__winner">Ganador: <strong>O</strong></p>
-      <p class="dashboard__match__draw">Empate? <strong>No</strong></p>
-    </div>
+    {% endfor %}
   </div>
 </div>

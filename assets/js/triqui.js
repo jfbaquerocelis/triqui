@@ -32,20 +32,70 @@ document.addEventListener('DOMContentLoaded', () => {
       // Vamos a verificar que ese campo no esté lleno
       let value = this.dataset.value
 
-      if (match && value === '0') {
-        // Agregamos el valor al campo
-        this.dataset.value = match.turn
-        // Agregamos a la matriz el valor del campo correspondiente
-        match.game[this.dataset.row][this.dataset.col] = match.turn
-        // Agregamos el icono correspondiente
-        this.innerHTML = (match.turn === 'X') ? '<i class="fas fa-times fa-3x grey-text text-darken-3"></i>' : '<i class="fas fa-circle fa-3x white-text"></i>'
-        // Cambiamos el turno
-        match.turn = (match.turn === 'X') ? 'O' : 'X'
-        // Informamos al usuario
-        turnMessage.textContent = `Tu turno ${match.turn}`
-        localStorage.setItem('match', JSON.stringify(match))
+      if (match) {
+        if (!match.isFinished && !match.isPaused && value === '0') {
+          // Agregamos el valor al campo
+          this.dataset.value = match.turn
+          // Agregamos a la matriz el valor del campo correspondiente
+          match.game[this.dataset.row][this.dataset.col] = match.turn
+          // Agregamos el icono correspondiente
+          this.innerHTML = (match.turn === 'X') ? '<i class="fas fa-times fa-3x grey-text text-darken-3"></i>' : '<i class="fas fa-circle fa-3x white-text"></i>'
+          // Cambiamos el turno
+          match.turn = (match.turn === 'X') ? 'O' : 'X'
+          // Informamos al usuario
+          turnMessage.textContent = `Tu turno ${match.turn}`
+          // Vamos a validar quien ha ganado contando cuantos espacios en blanco hay en el campo de juego para validar desde el movimiento 5
+          var blankFields = match.game.flat().filter(item => { return !item })
+
+          if (blankFields.length <= 4) {
+            let winner = whoWon(match.game)
+
+            if (winner) {
+              match.winner = winner
+              match.isFinished = true
+              match.turn = ''
+              headerButton.classList.remove('disabled')
+              pauseButton.classList.add('disabled')
+              turnMessage.textContent = `¡Has ganado ${winner}!`
+              socket.emit('match finished', match)
+              localStorage.removeItem('match')
+            } else if (blankFields.length === 0) {
+              match.draw = true
+              match.isFinished = true
+              match.turn = ''
+              headerButton.classList.remove('disabled')
+              pauseButton.classList.add('disabled')
+              turnMessage.textContent = `Empate`
+              socket.emit('match finished', match)
+              localStorage.removeItem('match')
+            }
+          }
+
+          localStorage.setItem('match', JSON.stringify(match))
+        }
       }
     })
+  })
+
+  // Cuando el usuario desee pausar el juego no podrá agregar valores al campo y en ese caso podrá renaudarlo cuando desee
+  pauseButton.addEventListener('click', function () {
+    let match = JSON.parse(localStorage.getItem('match'))
+    let icon = this.children.item(0)
+    let text = this.children.item(1)
+
+    if (!match.isPaused) {
+      icon.classList.remove('fa-pause')
+      icon.classList.add('fa-play')
+      text.textContent = 'SEGUIR'
+      match.isPaused = true
+    } else {
+      icon.classList.remove('fa-play')
+      icon.classList.add('fa-pause')
+      text.textContent = 'PAUSA'
+      match.isPaused = false
+    }
+
+    localStorage.setItem('match', JSON.stringify(match))
   })
 
   // recibimos la señal cuando el juego se haya creado en el backend
@@ -61,7 +111,10 @@ document.addEventListener('DOMContentLoaded', () => {
           let fieldCol = parseInt(field.dataset.col, 10)
           let fieldRow = parseInt(field.dataset.row, 10)
 
-          if (fieldCol === col && fieldRow === row) field.dataset.value = value
+          if (fieldCol === col && fieldRow === row) {
+            field.dataset.value = value
+            field.innerHTML = ''
+          }
         })
       })
     })
@@ -73,3 +126,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000)
   })
 })
+
+// El parametro game es la matríz
+function whoWon (game) {
+  // Vamos a validar la información horizontalmente
+  for (let index = 0; index < game.length; index++) {
+    if (game[index][0] === game[index][1] && game[index][1] === game[index][2]) {
+      return game[index][1]
+    }
+  }
+  // Vamos a validar la información verticalmente
+  for (let index = 0; index < game.length; index++) {
+    if (game[0][index] === game[1][index] && game[1][index] === game[2][index]) {
+      return game[1][index]
+    }
+  }
+  // Vamos a validar la información diagonalmente
+  if (game[0][0] === game[1][1] && game[1][1] === game[2][2]) {
+    return game[1][1]
+  }
+  if (game[0][2] === game[1][1] && game[1][1] === game[2][0]) {
+    return game[1][1]
+  }
+}
