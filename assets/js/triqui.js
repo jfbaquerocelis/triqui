@@ -20,7 +20,28 @@ document.addEventListener('DOMContentLoaded', () => {
       // Desactivamos el botón
       this.classList.add('disabled')
     } else if (action === 'resume match') {
+      let match = JSON.parse(localStorage.getItem('match'))
+      // Vamos a llenar los valores de la tabla a partir de la matríz del juego
+      match.game.forEach((array, row) => {
+        array.forEach((value, col) => {
+          fields.forEach((field, index) => {
+            let fieldCol = parseInt(field.dataset.col, 10)
+            let fieldRow = parseInt(field.dataset.row, 10)
 
+            if (fieldCol === col && fieldRow === row) {
+              field.dataset.value = value
+              if (value === 'X') {
+                field.innerHTML = '<i class="fas fa-times fa-3x grey-text text-darken-3"></i>'
+              } else if (value === 'O') {
+                field.innerHTML = '<i class="fas fa-circle fa-3x white-text"></i>'
+              }
+            }
+          })
+        })
+      })
+      turnMessage.textContent = `Tu turno ${match.turn}`
+      this.classList.add('disabled')
+      pauseButton.classList.remove('disabled')
     }
   })
 
@@ -44,6 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
           match.turn = (match.turn === 'X') ? 'O' : 'X'
           // Informamos al usuario
           turnMessage.textContent = `Tu turno ${match.turn}`
+          // Guardamos el juego
+          socket.emit('save process', match)
           // Vamos a validar quien ha ganado contando cuantos espacios en blanco hay en el campo de juego para validar desde el movimiento 5
           var blankFields = match.game.flat().filter(item => { return !item })
 
@@ -71,6 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
           }
 
+          headerButton.textContent = 'NUEVO JUEGO'
+          headerButton.dataset.action = 'new match'
           localStorage.setItem('match', JSON.stringify(match))
         }
       }
@@ -120,15 +145,11 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     // Activamos el botón de pausa
     pauseButton.classList.remove('disabled')
-    turnMessage.textContent = '¡A Jugar!'
-    setTimeout(() => {
-      turnMessage.textContent = `Tu turno ${match.turn}`
-    }, 1000)
+    turnMessage.textContent = `Tu turno ${match.turn}`
   })
 
   // Recibimos el objeto del match que acaba de finalizar para listarlo en el historial
   socket.on('new match finished', match => {
-    console.log(match)
     let matchContainer = document.querySelector('.dashboard__container')
     let isDraw = (match.draw) ? 'Si' : 'No'
     let dashboardMatch = document.createElement('div')
@@ -141,6 +162,13 @@ document.addEventListener('DOMContentLoaded', () => {
     `
 
     matchContainer.prepend(dashboardMatch)
+  })
+
+  // Vamos a recibir en este socket si existe alguna partida sin terminar
+  socket.on('there is an unfinished match', match => {
+    headerButton.textContent = 'REANUDAR JUEGO'
+    headerButton.dataset.action = 'resume match'
+    localStorage.setItem('match', JSON.stringify(match))
   })
 
   // El parametro game es la matríz
