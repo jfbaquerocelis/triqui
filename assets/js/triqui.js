@@ -1,5 +1,9 @@
 import 'sass/style.scss'
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Triqui Game')
+  let socket = window.io('http://localhost:3000')
+
+  socket.on('Hello?', () => {
+    alert('Socket connect sucessfull')
+  })
 })

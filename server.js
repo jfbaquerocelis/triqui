@@ -3,6 +3,7 @@ const nunjucks = require('nunjucks')
 const rootDir = require('app-root-dir')
 const mongoose = require('mongoose')
 const URI = 'mongodb://localhost:27017/triqui'
+const Match = require('./models/match')
 
 const server = express()
 const app = require('http').createServer(server)
@@ -18,9 +19,20 @@ nunjucks.configure('./views', {
 // Servimos los archivos estáticos
 server.use(express.static(`${rootDir.get()}/dist/`))
 
-server.get('/', function (req, res) {
-  res.render('index')
+server.get('/', async function (req, res) {
+  try {
+    let matches = await Match.find({})
+
+    res.render('index', { matches })
+  } catch (err) {
+    console.error(err)
+  }
 })
+
+// Sockets
+let newMatch = require('./sockets/newMatch')
+
+newMatch(io)
 
 mongoose.connect(URI, { useNewUrlParser: true }, err => {
   if (err) throw err
