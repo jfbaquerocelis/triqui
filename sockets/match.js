@@ -1,4 +1,5 @@
 const Match = require('../models/match')
+let moment = require('moment')
 
 function matchIO (io) {
   io.on('connection', socket => {
@@ -16,7 +17,9 @@ function matchIO (io) {
     // Vamos a recibir el socket cuando finalice una partida
     socket.on('match finished', async function (match) {
       try {
-        let updated = await Match.findByIdAndUpdate(match._id, match)
+        let updated = await Match.findByIdAndUpdate(match._id, match, { new: true })
+
+        socket.emit('new match finished', updated)
       } catch (err) {
         console.error(err)
       }

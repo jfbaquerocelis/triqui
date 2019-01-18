@@ -4,9 +4,11 @@
     {% for match in matches %}
       <div class="dashboard__match">
         <small class="dashboard__match__date">{{match.createdAt}}</small>
+        {% if match.winner %}
         <p class="dashboard__match__winner">Ganador: <strong>{{match.winner}}</strong></p>
+        {% endif %}
         <p class="dashboard__match__draw">Empate? <strong>{{"Si" if match.draw else "No"}}</strong></p>
-    </div>
+      </div>
     {% endfor %}
   </div>
 </div>

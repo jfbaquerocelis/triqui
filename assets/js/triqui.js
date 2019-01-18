@@ -125,27 +125,45 @@ document.addEventListener('DOMContentLoaded', () => {
       turnMessage.textContent = `Tu turno ${match.turn}`
     }, 1000)
   })
+
+  // Recibimos el objeto del match que acaba de finalizar para listarlo en el historial
+  socket.on('new match finished', match => {
+    console.log(match)
+    let matchContainer = document.querySelector('.dashboard__container')
+    let isDraw = (match.draw) ? 'Si' : 'No'
+    let dashboardMatch = document.createElement('div')
+
+    dashboardMatch.classList.add('dashboard__match')
+    dashboardMatch.innerHTML = `
+      <small class="dashboard__match__date">${match.createdAt}</small>
+      <p class="dashboard__match__winner">Ganador: <strong>${match.winner}</strong></p>
+      <p class="dashboard__match__draw">Empate? <strong>${isDraw}</strong></p>
+    `
+
+    matchContainer.prepend(dashboardMatch)
+  })
+
+  // El parametro game es la matríz
+  function whoWon (game) {
+    // Vamos a validar la información horizontalmente
+    for (let index = 0; index < game.length; index++) {
+      if (game[index][0] === game[index][1] && game[index][1] === game[index][2]) {
+        return game[index][1]
+      }
+    }
+    // Vamos a validar la información verticalmente
+    for (let index = 0; index < game.length; index++) {
+      if (game[0][index] === game[1][index] && game[1][index] === game[2][index]) {
+        return game[1][index]
+      }
+    }
+    // Vamos a validar la información diagonalmente
+    if (game[0][0] === game[1][1] && game[1][1] === game[2][2]) {
+      return game[1][1]
+    }
+    if (game[0][2] === game[1][1] && game[1][1] === game[2][0]) {
+      return game[1][1]
+    }
+  }
 })
 
-// El parametro game es la matríz
-function whoWon (game) {
-  // Vamos a validar la información horizontalmente
-  for (let index = 0; index < game.length; index++) {
-    if (game[index][0] === game[index][1] && game[index][1] === game[index][2]) {
-      return game[index][1]
-    }
-  }
-  // Vamos a validar la información verticalmente
-  for (let index = 0; index < game.length; index++) {
-    if (game[0][index] === game[1][index] && game[1][index] === game[2][index]) {
-      return game[1][index]
-    }
-  }
-  // Vamos a validar la información diagonalmente
-  if (game[0][0] === game[1][1] && game[1][1] === game[2][2]) {
-    return game[1][1]
-  }
-  if (game[0][2] === game[1][1] && game[1][1] === game[2][0]) {
-    return game[1][1]
-  }
-}
