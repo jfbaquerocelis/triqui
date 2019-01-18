@@ -4,7 +4,7 @@
     {% for match in matches %}
       {% if match.isFinished %}
         <div class="dashboard__match">
-          <small class="dashboard__match__date">{{match.createdAt}}</small>
+          <small class="dashboard__match__date">{{match.formatDate}}</small>
           {% if match.winner %}
           <p class="dashboard__match__winner">Ganador: <strong>{{match.winner}}</strong></p>
           {% endif %}

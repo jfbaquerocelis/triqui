@@ -10,6 +10,8 @@ const server = express()
 const app = require('http').createServer(server)
 const io = require('socket.io')(app)
 
+moment.locale('es')
+
 // Configuramos el view engine para las vistas
 server.set('view engine', 'html')
 // Configuramos nunjucks
@@ -24,16 +26,14 @@ server.get('/', async function (req, res) {
   try {
     let matches = await Match.find({}, null, { sort: { createdAt: -1 } })
 
-    res.render('index', {
-      matches
-    })
+    res.render('index', { matches })
   } catch (err) {
     console.error(err)
   }
 })
 
 // Sockets
-let matchIO = require('./sockets/match')
+let matchIO = require('./sockets/match.io')
 
 matchIO(io)
 

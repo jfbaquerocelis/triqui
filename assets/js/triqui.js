@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     dashboardMatch.classList.add('dashboard__match')
     dashboardMatch.innerHTML = `
-      <small class="dashboard__match__date">${match.createdAt}</small>
+      <small class="dashboard__match__date">${match.formatDate}</small>
       <p class="dashboard__match__winner">Ganador: <strong>${match.winner}</strong></p>
       <p class="dashboard__match__draw">Empate? <strong>${isDraw}</strong></p>
     `
