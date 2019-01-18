@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% block game %}
+<div class="match col s8 offset-s1">
+  <div class="match__container col s12">
+    <h4 class="match__turn col s12">¿Que esperas?</h4>
+    <div class="col s4 offset-s4">
+      <table class="match__board">
+        <tbody>
+          <tr>
+            <td data-col="0" data-row="0" data-value=""></td>
+            <td data-col="1" data-row="0" data-value=""></td>
+            <td data-col="2" data-row="0" data-value=""></td>
+          </tr>
+
+          <tr>
+            <td data-col="0" data-row="1" data-value=""></td>
+            <td data-col="1" data-row="1" data-value=""></td>
+            <td data-col="2" data-row="1" data-value=""></td>
+          </tr>
+
+          <tr>
+            <td data-col="0" data-row="2" data-value=""></td>
+            <td data-col="1" data-row="2" data-value=""></td>
+            <td data-col="2" data-row="2" data-value=""></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button class="match__pause waves-effect waves-light btn-large col s2 offset-s5 disabled">
+      <i class="fas fa-pause"></i>
+      <span class="match__pause__text">PAUSA</span>
+    </button>
+  </div>
+</div>
+{% endblock %}
+

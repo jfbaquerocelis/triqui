@@ -1,0 +1,16 @@
+<div class="dashboard col s2">
+  <h5 class="dashboard__title">Historial de Partidas</h5>
+  <div class="dashboard__container">
+    {% for match in matches %}
+      {% if match.isFinished %}
+        <div class="dashboard__match">
+          <small class="dashboard__match__date">{{match.formatDate}}</small>
+          {% if match.winner %}
+          <p class="dashboard__match__winner">Ganador: <strong>{{match.winner}}</strong></p>
+          {% endif %}
+          <p class="dashboard__match__draw">Empate? <strong>{{"Si" if match.draw else "No"}}</strong></p>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>

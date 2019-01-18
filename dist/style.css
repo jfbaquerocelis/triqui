@@ -1,0 +1,48 @@
+body {
+  background-color: #dedede; }
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0 .5rem;
+  margin-bottom: 0; }
+  .header__content-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+    .header__content-text__title {
+      margin: 0; }
+    .header__content-text__description {
+      border-top: 1px solid #cacaca;
+      margin: .2rem 0; }
+
+.dashboard__title {
+  border-bottom: 1px solid #cacaca; }
+
+.dashboard__container {
+  height: 70vh;
+  overflow-y: scroll; }
+
+.dashboard__match {
+  border-bottom: 1px solid #cacaca;
+  margin-bottom: .5rem; }
+  .dashboard__match__date, .dashboard__match__winner, .dashboard__match__draw {
+    margin: .1rem 0; }
+  .dashboard__match__date {
+    color: #454545;
+    font-weight: 300; }
+
+.match__turn {
+  text-align: center; }
+
+.match__board {
+  width: auto; }
+  .match__board td {
+    border: 1px solid #cacaca;
+    height: 85px;
+    text-align: center;
+    width: 85px; }
+
+.match__pause {
+  margin-top: 1rem; }
+

@@ -1,0 +1,45 @@
+{
+  "name": "triqui",
+  "version": "1.0.0",
+  "description": "Triqui Game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "NODE_ENV=development nodemon server.js",
+    "webpack": "npx webpack -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jfbaquerocelis/triqui.git"
+  },
+  "keywords": [
+    "Triqui",
+    "Match",
+    "3",
+    "Game"
+  ],
+  "author": "John Baquero Celis <jfbaquerocelis@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jfbaquerocelis/triqui/issues"
+  },
+  "homepage": "https://github.com/jfbaquerocelis/triqui#readme",
+  "dependencies": {
+    "app-root-dir": "^1.0.2",
+    "express": "^4.16.4",
+    "moment": "^2.23.0",
+    "mongoose": "^5.4.4",
+    "nunjucks": "^3.1.7",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "css-loader": "^2.1.0",
+    "mini-css-extract-plugin": "^0.5.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1"
+  }
+}
