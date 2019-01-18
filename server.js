@@ -12,8 +12,7 @@ const io = require('socket.io')(app)
 server.set('view engine', 'html')
 // Configuramos nunjucks
 nunjucks.configure('./views', {
-  express: server,
-  watch: process.env.NODE_ENV === 'development'
+  express: server
 })
 
 // Servimos los archivos estáticos

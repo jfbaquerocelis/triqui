@@ -1,6 +1,38 @@
 {% extends 'layout.html' %}
 
 {% block game %}
-<h1>Welcome to Triqui Game</h1>
+<div class="match col s8 offset-s1">
+  <div class="match__container col s12">
+    <h3 class="match__turn col s12">Tu turno: <strong>X</strong></h3>
+    <div class="col s4 offset-s4">
+      <table class="match__board">
+        <tbody>
+          <tr>
+            <td data-col="0" data-row="0"></td>
+            <td data-col="1" data-row="0"></td>
+            <td data-col="2" data-row="0"></td>
+          </tr>
+
+          <tr>
+            <td data-col="0" data-row="1"></td>
+            <td data-col="1" data-row="1"></td>
+            <td data-col="2" data-row="1"></td>
+          </tr>
+
+          <tr>
+            <td data-col="0" data-row="2"></td>
+            <td data-col="1" data-row="2"></td>
+            <td data-col="2" data-row="2"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button class="match__pause waves-effect waves-light btn-large col s2 offset-s5">
+      <i class="fa fa-pause"></i>
+      <span class="match__pause__text">PAUSA</span>
+    </button>
+  </div>
+</div>
 {% endblock %}
 

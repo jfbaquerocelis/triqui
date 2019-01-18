@@ -1,3 +1,72 @@
 body {
-  background-color: skyblue;
+  background-color: #dedede;
+}
+
+// Header
+.header {
+  display: flex;
+  align-items: center;
+  padding: 0 .5rem;
+  margin-bottom: 0;
+
+  &__content-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__title {
+      margin: 0;
+    }
+    &__description {
+      border-top: 1px solid #cacaca;
+      margin: .2rem 0;
+    }
+  }
+}
+
+// Dashboard
+.dashboard {
+  &__title {
+    border-bottom: 1px solid #cacaca;
+  }
+
+  &__container {
+    height: 70vh;
+    overflow-y: scroll;
+  }
+
+  &__match {
+    border-bottom: 1px solid #cacaca;
+    margin-bottom: .5rem;
+
+    &__date, &__winner, &__draw {
+      margin: .1rem 0;
+    }
+
+    &__date {
+      color: #454545;
+      font-weight: 300;
+    }
+  }
+}
+
+// Match Board
+.match {
+  &__turn {
+    text-align: center;
+  }
+
+  &__board {
+    width: auto;
+
+    td {
+      height: 85px;
+      width: 85px;
+      border: 1px solid #cacaca;
+    }
+  }
+
+  &__pause {
+    margin-top: 1rem;
+  }
 }
